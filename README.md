@@ -6,11 +6,11 @@ Twig for Codeigniter 4
 
 Use the package with composer install
 
-	> composer require daycry/twig
+	> composer require raizdev/twig-codeigniter4
 
 ## Manual installation
 
-Download this repo and then enable it by editing **app/Config/Autoload.php** and adding the **Daycry\Twig**
+Download this repo and then enable it by editing **app/Config/Autoload.php** and adding the **Raizdev\Twig**
 namespace to the **$psr4** array. For example, if you copied it into **app/ThirdParty**:
 
 ```php
@@ -18,7 +18,7 @@ $psr4 = [
     'Config'      => APPPATH . 'Config',
     APP_NAMESPACE => APPPATH,
     'App'         => APPPATH,
-    'Daycry\Twig' => APPPATH .'ThirdParty/twig/src',
+    'Raizdev\Twig' => APPPATH .'ThirdParty/twig/src',
 ];
 ```
 
@@ -35,7 +35,7 @@ Then you can adjust it to your needs. By default file will be present in `app/Co
 ## Usage Loading Library
 
 ```php
-$twig = new \Daycry\Twig\Twig();
+$twig = new \Raizdev\Twig\Twig();
 $twig->display( 'file.html', [] );
 
 ```
@@ -69,10 +69,10 @@ $twig->display( 'file.html', [] );
 ## Add Globals
 
 ```php
-$twig = new \Daycry\Twig\Twig();
+$twig = new \Raizdev\Twig\Twig();
 
 $session = \Config\Services::session();
-$session->set( array( 'name' => 'Daycry' ) );
+$session->set( array( 'name' => 'Raizdev' ) );
 $twig->addGlobal( 'session', $session );
 $twig->display( 'file.html', [] );
 
@@ -101,7 +101,7 @@ $twig->display( 'file.html', [] );
 ## How Run Tests
 
 ```php
-cd vendor\daycry\twig\
+cd vendor\raizdev\twig\
 composer install
 vendor\bin\phpunit
 
