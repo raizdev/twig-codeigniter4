@@ -193,10 +193,9 @@ class Twig
     * @return environment
     */
   
-    public function getEnv($varname)
+    public function getEnv($var)
     {
-        $value = getenv($varname);
-        return $value;
+        return getenv($var);
     }
 
     /**
