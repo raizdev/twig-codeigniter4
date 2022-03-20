@@ -4,6 +4,8 @@ namespace Raizdev\Twig;
 use Raizdev\Twig\Config\Twig as TwigConfig;
 use CodeIgniter\Config\BaseConfig;
 
+use PHLAK\Config\Config;
+
 use CodeIgniter\Exceptions\PageNotFoundException;
 use Twig_Environment;
 use Twig_Error_Loader;
@@ -174,10 +176,14 @@ class Twig
         }
 
         $this->twig->addFunction( new \Twig\Twigfunction( 'lang', [$this, 'getLang']));
-        $this->twig->addFunction( new \Twig\TwigFunction( 'getenv', [$this, 'getEnv']));                                         
         $this->twig->addFunction( new \Twig\TwigFunction( 'validation_list_errors', [ $this, 'validation_list_errors' ], ['is_safe' => [ 'html' ] ] ) );
-
+      
         $this->functions_added = true;
+    }
+  
+    public function addGlobals()
+    {
+        $this->twig->addGlobal('config', json_decode(file_get_contents(str_replace('app/', 'config.json', APPPATH)), true));
     }
 
     /**
@@ -193,9 +199,9 @@ class Twig
     * @return environment
     */
   
-    public function getEnv($var)
+    public function getConfig()
     {
-        return getenv($var);
+	return json_decode(file_get_contents(str_replace('app/', 'config.json', APPPATH)), true);
     }
 
     /**
@@ -265,6 +271,7 @@ class Twig
             // We call addFunctions() here, because we must call addFunctions()
             // after loading CodeIgniter functions in a controller.
             $this->addFunctions();
+            $this->addGlobals();
             
             $view = $view . '.twig';
             return $this->twig->render( $view, $params );
