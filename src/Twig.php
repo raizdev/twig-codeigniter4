@@ -123,6 +123,8 @@ class Twig
             $twig->addExtension( new \Twig\Extension\DebugExtension() );
         }
 
+        $twig->addExtension(new \Raizdev\Twig\Extensions\DateExtension());
+
         $this->twig = $twig;
     }
     
@@ -175,35 +177,31 @@ class Twig
             $this->twig->addFunction( new \Twig\TwigFunction( 'anchor', [ $this, 'safe_anchor' ], [ 'is_safe' => [ 'html' ] ] ) );
         }
 
+        $this->twig->addFunction( new \Twig\Twigfunction( 'config', [$this, 'getConfig']));
         $this->twig->addFunction( new \Twig\Twigfunction( 'lang', [$this, 'getLang']));
         $this->twig->addFunction( new \Twig\TwigFunction( 'validation_list_errors', [ $this, 'validation_list_errors' ], ['is_safe' => [ 'html' ] ] ) );
-      
+
         $this->functions_added = true;
     }
   
     public function addGlobals()
     {
-        $this->twig->addGlobal('config', json_decode(file_get_contents(str_replace('app/', 'config.json', APPPATH)), true));
     }
 
     /**
     * @return language
     */
   
+    public function getConfig($var) 
+    {
+        return service('config')->get($var);
+    }
+
     public function getLang($var) 
     {
 	    return lang($var);
     }
     
-    /**
-    * @return environment
-    */
-  
-    public function getConfig()
-    {
-	return json_decode(file_get_contents(str_replace('app/', 'config.json', APPPATH)), true);
-    }
-
     /**
     * @param string $uri
     * @param string $title
